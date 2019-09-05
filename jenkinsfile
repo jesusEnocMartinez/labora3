@@ -1,0 +1,20 @@
+
+
+node {
+stage ( ’ Checkout ’ ) {
+checkouts cm
+}
+stage (’ Build ’) {
+docker .image ( ’trion / ng−cli ’) . inside {
+sh ’ npm install’
+sh ’ ng buil d −−progress false −−prod −−aot ’
+sh ’ tar −cvz dist .tar .gz −−strip −components=1 dist ’
+}
+archive ’ dist .tar . gz ’
+}
+stage ( ’ Test ’ ) {
+docker .image ( ’ trion / ng−c l i −karma ’ ) . inside {
+sh ’ ng test −−progress false −−watch false ’
+}
+}
+}
